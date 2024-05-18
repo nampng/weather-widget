@@ -73,8 +73,9 @@ void Weather::replyFinished(QNetworkReply *reply)
     qDebug() << doc;
 
     Condition cond = mWeatherConditions[doc["current"]["condition"]["code"].toInt()];
-    mCurrentWeather = cond.dayWeather;
-    mCurrentIcon = QString::fromStdString("icons/") + (doc["current"]["is_day"].toInt() == 1 ? "day" : "night") + '/' + QString::number(cond.icon) + ".png";
+    mIsDay = doc["current"]["is_day"].toInt() == 1;
+    mCurrentWeather = (mIsDay ? cond.dayWeather : cond.nightWeather);
+    mCurrentIcon = QString::fromStdString("icons/") + (mIsDay ? "day" : "night") + '/' + QString::number(cond.icon) + ".png";
     emit conditionChanged();
 }
 
@@ -91,4 +92,9 @@ QString Weather::weather()
 QString Weather::icon()
 {
     return mCurrentIcon;
+}
+
+QString Weather::backgroundColor()
+{
+    return (mIsDay ? mDayBackgrounds["Sunny"] : mNightBackgrounds["Clear"]);
 }

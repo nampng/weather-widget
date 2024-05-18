@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
 
-    const QUrl url(QStringLiteral("weather-app/Main.qml"));
+    const QUrl url(QStringLiteral("weather-widget/Main.qml"));
     engine.load(url);
 
     return app.exec();
