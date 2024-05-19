@@ -31,4 +31,4 @@ target_link_libraries(weather-widget
     backend
 )
 
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/icons" DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/icons" DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/weatherWidget)
