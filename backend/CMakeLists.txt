@@ -20,3 +20,5 @@ target_link_libraries(backend
 target_include_directories(backend PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/weather_conditions.json" DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/api_key.txt" DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
