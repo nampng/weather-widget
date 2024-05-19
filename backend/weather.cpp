@@ -1,11 +1,12 @@
 #include "weather.h"
-#include "key.h"
 
 #include <iostream>
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonValue>
 #include <QJsonObject>
+
+QString API_KEY = "none";
 
 static Weather *sInstance = nullptr;
 
@@ -30,6 +31,15 @@ Weather::Weather(QObject *parent): QObject{parent}
             Condition cond{obj["icon"].toInt(), obj["day"].toString(), obj["night"].toString()};
             mWeatherConditions.insert(obj["code"].toInt(), cond);
         }
+    }
+    QFile apiFile("backend/api_key.txt");
+    if (!apiFile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+      std::cerr << "Could not open api_key.txt" << std::endl;
+    }
+    else
+    {
+      API_KEY = QString::fromStdString(apiFile.readAll().toStdString());
     }
     queryWeather();
 }
@@ -61,8 +71,13 @@ void Weather::switchCity()
 
 void Weather::queryWeather()
 {
+    if (API_KEY == "none")
+    {
+      std::cerr << "No key..." << std::endl;
+      return;
+    }
     std::cout << "Querying weather" << std::endl;
-    QString url = "http://api.weatherapi.com/v1/current.json?key="+QString::fromStdString(API_KEY)+"&q="+mCities[mCurrCity]+"&aqi=no";
+    QString url = "http://api.weatherapi.com/v1/current.json?key="+API_KEY+"&q="+mCities[mCurrCity]+"&aqi=no";
     mManager->get(QNetworkRequest(QUrl(url)));
 }
 

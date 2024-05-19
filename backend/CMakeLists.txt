@@ -4,8 +4,6 @@ project(backend VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include_directories(../keys)
-
 qt_add_library(backend STATIC
     weather.cpp
     weather.h
