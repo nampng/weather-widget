@@ -20,13 +20,21 @@ Window {
             Layout.alignment: Qt.AlignCenter
             text: Weather.weather
             font.pixelSize: 22
+            color: (Weather.isDay ? "black" : "white")
+        }
+
+        Label {
+            Layout.alignment: Qt.AlignCenter
+            text: Weather.fahr.toFixed(0) + "°F"
+            font.pixelSize: 22
+            color: (Weather.isDay ? "black" : "white")
         }
 
         Image {
             Layout.alignment: Qt.AlignCenter
-            height: 64
-            width: 64
-            fillMode: Image.Stretch
+            Layout.preferredHeight: 128
+            Layout.preferredWidth: 128
+            fillMode: Image.PreserveAspectFit
             source: Weather.icon
         }
 
@@ -34,6 +42,7 @@ Window {
             Layout.alignment: Qt.AlignCenter
             text: Weather.city
             font.pixelSize: 22
+            color: (Weather.isDay ? "black" : "white")
         }
 
         Button {

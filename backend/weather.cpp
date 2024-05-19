@@ -87,10 +87,33 @@ void Weather::replyFinished(QNetworkReply *reply)
     QJsonDocument doc = QJsonDocument::fromJson(data);
     qDebug() << doc;
 
-    Condition cond = mWeatherConditions[doc["current"]["condition"]["code"].toInt()];
+    if (doc["error"].isObject())
+    {
+        std::cerr << "Error!" << std::endl;
+        mCurrentWeather = "Error! Check your API key!";
+        mBackgroundColor = "white";
+        return;
+    }
+
+    int code = doc["current"]["condition"]["code"].toInt();
+
+    // Retrieve condition
+    Condition cond = mWeatherConditions[code];
+
+    // Determine if it's day or night
     mIsDay = doc["current"]["is_day"].toInt() == 1;
+
+    mCurrentTempF = doc["current"]["temp_f"].toDouble();
+
+    // Set weather
     mCurrentWeather = (mIsDay ? cond.dayWeather : cond.nightWeather);
+
+    // Set icon
     mCurrentIcon = QString::fromStdString("icons/") + (mIsDay ? "day" : "night") + '/' + QString::number(cond.icon) + ".png";
+
+    // Set background color
+    mBackgroundColor = (mIsDay ? mBackgrounds[code].first : mBackgrounds[code].second);
+
     emit conditionChanged();
 }
 
@@ -111,5 +134,15 @@ QString Weather::icon()
 
 QString Weather::backgroundColor()
 {
-    return (mIsDay ? mDayBackgrounds["Sunny"] : mNightBackgrounds["Clear"]);
+    return mBackgroundColor;
+}
+
+bool Weather::isDay()
+{
+    return mIsDay;
+}
+
+float Weather::fahr()
+{
+    return mCurrentTempF;
 }
