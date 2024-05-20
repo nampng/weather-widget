@@ -1,6 +1,6 @@
 # weather-widget
 
-A simple little C++/QML application using weatherapi.com to display current weather/temperature (in fahrenheight) for some cities around the world.
+A simple little C++/QML application using weatherapi.com to display current weather/temperature (in fahrenheit) for some cities around the world.
 
 Ideally, this application should be cross-compiled and loaded onto the STM32MP157F-DK2 discovery board using its 800x480 screen. 
 
